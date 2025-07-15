@@ -17,6 +17,7 @@ CREATE TABLE credit_card_applications (
   full_name TEXT NOT NULL,
   email TEXT NOT NULL,
   phone TEXT NOT NULL,
+  pan_number TEXT NOT NULL,
   date_of_birth DATE NOT NULL,
   address TEXT NOT NULL,
   city TEXT NOT NULL,

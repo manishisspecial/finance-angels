@@ -23,6 +23,7 @@ const CustomerForm = ({ cardName, cardBank, applyLink, onClose }) => {
     name: '',
     email: '',
     phone: '',
+    panNumber: '',
     dateOfBirth: '',
     monthlyIncome: '',
     occupation: '',
@@ -48,6 +49,11 @@ const CustomerForm = ({ cardName, cardBank, applyLink, onClose }) => {
       newErrors.phone = 'Phone number is required';
     } else if (!/^\d{10}$/.test(formData.phone.replace(/\s/g, ''))) {
       newErrors.phone = 'Please enter a valid 10-digit phone number';
+    }
+    if (!formData.panNumber.trim()) {
+      newErrors.panNumber = 'PAN Number is required';
+    } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.panNumber.toUpperCase())) {
+      newErrors.panNumber = 'Please enter a valid PAN Number (e.g., ABCDE1234F)';
     }
     if (!formData.dateOfBirth.trim()) newErrors.dateOfBirth = 'Date of birth is required';
     if (!formData.state.trim()) newErrors.state = 'State is required';
@@ -104,6 +110,7 @@ const CustomerForm = ({ cardName, cardBank, applyLink, onClose }) => {
         full_name: formData.name,
         email: formData.email,
         mobile_number: formData.phone,
+        pan_number: formData.panNumber.toUpperCase(),
         date_of_birth: formData.dateOfBirth,
         monthly_income: formData.monthlyIncome,
         occupation: formData.occupation,
@@ -245,6 +252,25 @@ const CustomerForm = ({ cardName, cardBank, applyLink, onClose }) => {
                 placeholder="Enter 10-digit mobile number"
               />
               {errors.phone && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.phone}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1 sm:mb-2">
+                PAN Number *
+              </label>
+              <input
+                type="text"
+                name="panNumber"
+                value={formData.panNumber}
+                onChange={handleInputChange}
+                className={`form-input ${
+                  errors.panNumber ? 'border-red-300' : 'border-gray-300'
+                }`}
+                placeholder="Enter PAN Number (e.g., ABCDE1234F)"
+                maxLength="10"
+                style={{ textTransform: 'uppercase' }}
+              />
+              {errors.panNumber && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.panNumber}</p>}
             </div>
 
             <div>

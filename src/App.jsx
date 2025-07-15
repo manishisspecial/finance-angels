@@ -2,7 +2,16 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-do
 import { useState } from 'react';
 import { ArrowLeft, Search, Filter, CheckCircle, Star, ArrowRight, Shield, Zap, Users, TrendingUp, CreditCard, Calculator, FileText, Phone, Mail, MapPin, Menu, X } from 'lucide-react';
 import CustomerForm from './components/CustomerForm';
+import CibilPage from './components/CibilPage';
+import EmiCalculatorPage from './components/EmiCalculatorPage';
+import CompanyPage from './components/CompanyPage';
+import AboutUsPage from './components/AboutUsPage';
+import ContactUsPage from './components/ContactUsPage';
+
+import PrivacyPolicyPage from './components/PrivacyPolicyPage';
+import TermsOfServicePage from './components/TermsOfServicePage';
 import ScrollToTop from './components/ScrollToTop';
+import WhatsAppChat from './components/WhatsAppChat';
 
 // Creative Fintech HomePage with modern design
 function HomePage() {
@@ -257,16 +266,7 @@ function HomePage() {
                 Your trusted partner for all financial needs. We combine technology with expertise 
                 to deliver smart, secure, and personalized financial solutions.
               </p>
-              <div className="flex space-x-4">
-                <div className="trust-badge">
-                  <Shield className="w-4 h-4" />
-                  <span>RBI Registered</span>
-                </div>
-                <div className="security-badge">
-                  <CheckCircle className="w-4 h-4" />
-                  <span>SSL Secured</span>
-                </div>
-              </div>
+
             </div>
             
             <div>
@@ -282,10 +282,10 @@ function HomePage() {
             <div>
               <h3 className="text-lg font-semibold mb-6">Company</h3>
               <ul className="space-y-3 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors duration-300">About Us</a></li>
-                <li><a href="#" className="hover:text-white transition-colors duration-300">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition-colors duration-300">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors duration-300">Terms of Service</a></li>
+                <li><NavLink to="/about-us" className="hover:text-white transition-colors duration-300">About Us</NavLink></li>
+
+                <li><NavLink to="/privacy-policy" className="hover:text-white transition-colors duration-300">Privacy Policy</NavLink></li>
+                <li><NavLink to="/terms-of-service" className="hover:text-white transition-colors duration-300">Terms of Service</NavLink></li>
               </ul>
             </div>
             
@@ -309,7 +309,7 @@ function HomePage() {
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 The Finance Angels. All rights reserved. | Made with ❤️ for India</p>
+            <p>&copy; 2024 The Finance Angels. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -318,8 +318,6 @@ function HomePage() {
 }
 
 function LoansPage() { return <div className="p-8 text-center text-2xl">Loans Page (Coming Soon)</div>; }
-function CibilPage() { return <div className="p-8 text-center text-2xl">CIBIL Score Page (Coming Soon)</div>; }
-function ContactPage() { return <div className="p-8 text-center text-2xl">Contact Page (Coming Soon)</div>; }
 
 const creditCards = [
   {
@@ -388,6 +386,390 @@ const creditCards = [
     benefits: 'Travel benefits, Fast processing, 100% online process',
     applyLink: 'https://wee.bnking.in/c/MTFlYjQzM'
   },
+  // HDFC Bank Cards
+  {
+    name: 'HDFC Swiggy Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Lifestyle',
+    rating: 4.6,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: '10% cashback on Swiggy, 5% on other online spends',
+    benefits: 'Complimentary Swiggy One Membership, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/MmE0YTVmY'
+  },
+  {
+    name: 'HDFC Pixel Play Card',
+    bank: 'HDFC Bank',
+    category: 'Shopping',
+    rating: 4.4,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Interest-free credit, Amazing travel benefits',
+    benefits: 'Free Insurance, Boosts credit score, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/YjdhOWJiM'
+  },
+  {
+    name: 'HDFC Bank RuPay Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Shopping',
+    rating: 4.3,
+    annualFee: '₹1,200',
+    interestRate: '3.49%',
+    rewards: 'Extraordinary rewards, Amazing travel benefits',
+    benefits: 'Fuel surcharge waiver, Free Insurance, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/ZTQ2NjVkZ'
+  },
+  {
+    name: 'Tata Neu HDFC Bank Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Shopping',
+    rating: 4.5,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: 'Up to 10% cashback as TataNeu coins',
+    benefits: 'Complimentary lounge access, Fuel surcharge waiver',
+    applyLink: 'https://wee.bnking.in/c/NjMzNzA2M'
+  },
+  {
+    name: 'HDFC Freedom Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Lifestyle',
+    rating: 4.2,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Interest-free credit, Amazing travel benefits',
+    benefits: 'Free Insurance, Boosts credit score, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/N2U4ZGQ4M'
+  },
+  {
+    name: 'HDFC Money Back Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Shopping',
+    rating: 4.1,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Interest-free credit, Amazing travel benefits',
+    benefits: 'Free Insurance, Boosts credit score, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/MTA1OGZmM'
+  },
+  {
+    name: 'HDFC Business Money Back Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Business',
+    rating: 4.0,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: 'Interest-free credit, Amazing travel benefits',
+    benefits: 'Free Insurance, Boosts credit score, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/OGU0YzE2Z'
+  },
+  {
+    name: 'HDFC Indian Oil Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Fuel',
+    rating: 4.3,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Interest-free credit, Amazing travel benefits',
+    benefits: 'Free Insurance, Boosts credit score, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/Y2QyMWNmM'
+  },
+  {
+    name: 'HDFC Millennia Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Shopping',
+    rating: 4.4,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Interest-free credit, Amazing travel benefits',
+    benefits: 'Free Insurance, Boosts credit score, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/MWQyMWQ4Z'
+  },
+  {
+    name: 'HDFC Shopper Stop Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Shopping',
+    rating: 4.2,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Interest-free credit, Amazing travel benefits',
+    benefits: 'Free Insurance, Boosts credit score, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/NThkMDg0O'
+  },
+  {
+    name: 'HDFC Regalia First Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Premium',
+    rating: 4.6,
+    annualFee: '₹2,500',
+    interestRate: '3.49%',
+    rewards: 'Interest-free credit, Amazing travel benefits',
+    benefits: 'Free Insurance, Boosts credit score, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/MDM1MzQ5M'
+  },
+  {
+    name: 'HDFC CSC Small Business Money Back Credit Card',
+    bank: 'HDFC Bank',
+    category: 'Business',
+    rating: 4.0,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: 'Interest-free credit, Amazing travel benefits',
+    benefits: 'Free Insurance, Boosts credit score, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/MjE4YTI5M'
+  },
+  // HSBC Bank Cards
+  {
+    name: 'HSBC Visa Platinum Credit Card',
+    bank: 'HSBC Bank',
+    category: 'Premium',
+    rating: 4.4,
+    annualFee: '₹0',
+    interestRate: '3.49%',
+    rewards: 'Amazon gift voucher worth ₹500, Fuel surcharge waiver',
+    benefits: 'No joining and annual fees, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/MzkzM2RjY'
+  },
+  {
+    name: 'HSBC TravelOne Credit Card',
+    bank: 'HSBC Bank',
+    category: 'Travel',
+    rating: 4.7,
+    annualFee: '₹2,500',
+    interestRate: '3.49%',
+    rewards: '6 complimentary domestic & 4 international lounge access per year',
+    benefits: '₹1,000 cashback, PostCard Voucher & EazyDiner Membership',
+    applyLink: 'https://wee.bnking.in/c/M2IwNzYyZ'
+  },
+  {
+    name: 'HSBC Live+ Credit Card',
+    bank: 'HSBC Bank',
+    category: 'Lifestyle',
+    rating: 4.3,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: 'Amazing gift vouchers, Reward points/cashback',
+    benefits: 'Fuel surcharge waiver, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/MDNlNDQyZ'
+  },
+  // RBL Bank Cards
+  {
+    name: 'RBL Shoprite Credit Card',
+    bank: 'RBL Bank',
+    category: 'Shopping',
+    rating: 4.5,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: 'Up to 20,000 bonus reward points and exciting welcome benefits',
+    benefits: 'Travel perks, Exclusive movie offers and fuel surcharge waivers',
+    applyLink: 'https://wee.bnking.in/c/MzJjYTQ4Z'
+  },
+  {
+    name: 'IndianOil RBL Bank Credit Card',
+    bank: 'RBL Bank',
+    category: 'Fuel',
+    rating: 4.3,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Earn up to 10 reward points per ₹100 spent',
+    benefits: '1,000 fuel points worth ₹500 as welcome benefit, 6% valueback at IndianOil',
+    applyLink: 'https://wee.bnking.in/c/OGEzODg2Y'
+  },
+  {
+    name: 'IndianOil RBL Bank XTRA Credit Card',
+    bank: 'RBL Bank',
+    category: 'Fuel',
+    rating: 4.4,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: 'Earn up to 15 reward points per ₹100 spent',
+    benefits: '3,000 fuel points worth ₹1500 as welcome benefit, 8.5% valueback at IndianOil',
+    applyLink: 'https://wee.bnking.in/c/ZGFmNTA1Y'
+  },
+  // YES Bank Cards
+  {
+    name: 'YES Bank POP-CLUB Credit Card',
+    bank: 'YES Bank',
+    category: 'Lifestyle',
+    rating: 4.6,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: 'Upto 500 POPcoins as welcome benefit, Earn up to 10 POPcoins for every transaction',
+    benefits: 'Free cancellation & rescheduling on Cleartrip, Zomato Gold mini membership',
+    applyLink: 'https://wee.bnking.in/c/ODNhY2MzO'
+  },
+  {
+    name: 'YES Bank Rio RuPay Credit Card',
+    bank: 'YES Bank',
+    category: 'Shopping',
+    rating: 4.4,
+    annualFee: '₹0',
+    interestRate: '3.49%',
+    rewards: 'Guaranteed 0.75% cashback on UPI spends & 0.25% cashback on non-UPI spends',
+    benefits: 'Lifetime free credit card, 1% fuel surcharge waiver across India',
+    applyLink: 'https://wee.bnking.in/c/OTZmMzYxM'
+  },
+  // Axis Bank Cards
+  {
+    name: 'Axis Indian Oil Credit Card',
+    bank: 'Axis Bank',
+    category: 'Fuel',
+    rating: 4.3,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Welcoming offers, Amazon vouchers, Huge rewards',
+    benefits: 'Fast processing, Minimal documentation',
+    applyLink: 'https://wee.bnking.in/c/YTljZmYxZ'
+  },
+  {
+    name: 'Axis Flipkart Credit Card',
+    bank: 'Axis Bank',
+    category: 'Shopping',
+    rating: 4.4,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Welcoming offers, Amazon vouchers, Huge rewards',
+    benefits: 'Fast processing, Minimal documentation',
+    applyLink: 'https://wee.bnking.in/c/YzgzNDRjM'
+  },
+  // AU Bank Cards
+  {
+    name: 'AU LIT Credit Card',
+    bank: 'AU Bank',
+    category: 'Lifestyle',
+    rating: 4.3,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Exciting cashback, Free device insurance',
+    benefits: 'Welcome & milestones benefits, Fast processing, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/NWQ3NjM5Z'
+  },
+  {
+    name: 'AU Altura Credit Card',
+    bank: 'AU Bank',
+    category: 'Premium',
+    rating: 4.4,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: 'Exciting cashback, Free device insurance',
+    benefits: 'Welcome & milestones benefits, Fast processing, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/NzNjNWU2Y'
+  },
+  {
+    name: 'AU Xcite Credit Card',
+    bank: 'AU Bank',
+    category: 'Shopping',
+    rating: 4.2,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Exciting cashback, Free device insurance',
+    benefits: 'Welcome & milestones benefits, Fast processing, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/MmJjMDQwY'
+  },
+  {
+    name: 'AU Xcite Ace Credit Card',
+    bank: 'AU Bank',
+    category: 'Shopping',
+    rating: 4.3,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Exciting cashback, Free device insurance',
+    benefits: 'Welcome & milestones benefits, Fast processing, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/Yjk0MmE4Y'
+  },
+  {
+    name: 'AU Xcite Ultra Credit Card',
+    bank: 'AU Bank',
+    category: 'Premium',
+    rating: 4.5,
+    annualFee: '₹2,000',
+    interestRate: '3.49%',
+    rewards: 'Exciting cashback, Free device insurance',
+    benefits: 'Welcome & milestones benefits, Fast processing, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/YTVhMDVkN'
+  },
+  {
+    name: 'AU Vetta Credit Card',
+    bank: 'AU Bank',
+    category: 'Premium',
+    rating: 4.4,
+    annualFee: '₹1,500',
+    interestRate: '3.49%',
+    rewards: 'Exciting cashback, Free device insurance',
+    benefits: 'Welcome & milestones benefits, Fast processing, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/YzJmNDNjY'
+  },
+  {
+    name: 'AU Altura Plus Credit Card',
+    bank: 'AU Bank',
+    category: 'Premium',
+    rating: 4.6,
+    annualFee: '₹2,500',
+    interestRate: '3.49%',
+    rewards: 'Exciting cashback, Free device insurance',
+    benefits: 'Welcome & milestones benefits, Fast processing, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/ZWIwYjc5N'
+  },
+  {
+    name: 'AU Zenith Credit Card',
+    bank: 'AU Bank',
+    category: 'Premium',
+    rating: 4.7,
+    annualFee: '₹3,000',
+    interestRate: '3.49%',
+    rewards: 'Exciting cashback, Free device insurance',
+    benefits: 'Welcome & milestones benefits, Fast processing, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/ZmI3ZTc2Y'
+  },
+  {
+    name: 'AU Zenith Plus Credit Card',
+    bank: 'AU Bank',
+    category: 'Premium',
+    rating: 4.8,
+    annualFee: '₹3,500',
+    interestRate: '3.49%',
+    rewards: 'Exciting cashback, Free device insurance',
+    benefits: 'Welcome & milestones benefits, Fast processing, 100% online process',
+    applyLink: 'https://wee.bnking.in/c/MWY4ZmNhZ'
+  },
+  // Kiwi Credit Card
+  {
+    name: 'Kiwi Credit Card',
+    bank: 'Kiwi',
+    category: 'Shopping',
+    rating: 4.5,
+    annualFee: '₹0',
+    interestRate: '3.49%',
+    rewards: 'Lifetime Free Credit Card, 1% Cashback on Scan & Pay',
+    benefits: 'UPI-enabled Credit Card, Pay at any QR code, Simple and convenient',
+    applyLink: 'https://wee.bnking.in/c/MTAwZWY3M'
+  },
+  // Scapia Credit Card
+  {
+    name: 'Scapia Federal Bank Credit Card',
+    bank: 'Federal Bank',
+    category: 'Travel',
+    rating: 4.6,
+    annualFee: '₹0',
+    interestRate: '3.49%',
+    rewards: 'No joining & annual fees, 10% rewards on every spend',
+    benefits: 'Unlimited lounge access across India, No forex markup fee',
+    applyLink: 'https://wee.bnking.in/c/NDI1ZTE5M'
+  },
+  // Bank of Baroda Card
+  {
+    name: 'BOBCARD',
+    bank: 'Bank of Baroda',
+    category: 'Shopping',
+    rating: 4.2,
+    annualFee: '₹1,000',
+    interestRate: '3.49%',
+    rewards: 'Attractive reward points, Amazing deals & discounts',
+    benefits: 'Exclusive benefits for subscriptions, travel & food, Fast processing',
+    applyLink: 'https://wee.bnking.in/c/OTQwYzBjO'
+  },
+  // Legacy Cards (keeping existing ones)
   {
     name: 'HDFC Regalia',
     bank: 'HDFC Bank',
@@ -457,7 +839,7 @@ function CreditCardsPage({ onApply }) {
       {/* Filters Section */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center space-x-4">
+          <div className="filter-section flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
             <div className="flex items-center space-x-2">
               <Filter className="w-5 h-5 text-gray-600" />
               <span className="text-gray-700 font-medium">Filters:</span>
@@ -465,26 +847,36 @@ function CreditCardsPage({ onApply }) {
             <select 
               value={selectedBank}
               onChange={(e) => setSelectedBank(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="form-select w-full sm:w-auto"
             >
               <option>All Banks</option>
               <option>IndusInd Bank</option>
               <option>HDFC Bank</option>
+              <option>HSBC Bank</option>
+              <option>RBL Bank</option>
+              <option>YES Bank</option>
+              <option>Axis Bank</option>
+              <option>AU Bank</option>
+              <option>Kiwi</option>
+              <option>Federal Bank</option>
+              <option>Bank of Baroda</option>
               <option>ICICI Bank</option>
               <option>SBI</option>
             </select>
             <select 
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="form-select w-full sm:w-auto"
             >
               <option>All Types</option>
               <option>Premium</option>
               <option>Shopping</option>
               <option>Lifestyle</option>
               <option>Travel</option>
+              <option>Business</option>
+              <option>Fuel</option>
             </select>
-            <div className="flex-1 max-w-md">
+            <div className="flex-1 w-full sm:max-w-md">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <input
@@ -492,7 +884,7 @@ function CreditCardsPage({ onApply }) {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search cards..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="form-input w-full pl-10 pr-4"
                 />
               </div>
             </div>
@@ -517,7 +909,7 @@ function CreditCardsPage({ onApply }) {
             </button>
           </div>
         ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {filteredCards.map((card, index) => (
             <div key={index} className="bg-white rounded-xl shadow-lg p-6 card-hover">
               <div className="flex items-start justify-between mb-4">
@@ -624,6 +1016,7 @@ function App() {
               <NavLink to="/credit-cards" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Credit Cards</NavLink>
               <NavLink to="/loans" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Loans</NavLink>
               <NavLink to="/cibil-check" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>CIBIL Score</NavLink>
+              <NavLink to="/emi-calculator" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>EMI Calculator</NavLink>
               <NavLink to="/contact" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Contact</NavLink>
             </nav>
 
@@ -698,6 +1091,19 @@ function App() {
                   CIBIL Score
                 </NavLink>
                 <NavLink 
+                  to="/emi-calculator" 
+                  className={({ isActive }) => 
+                    `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                      isActive 
+                        ? 'bg-purple-100 text-purple-700' 
+                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
+                    }`
+                  }
+                  onClick={closeMobileMenu}
+                >
+                  EMI Calculator
+                </NavLink>
+                <NavLink 
                   to="/contact" 
                   className={({ isActive }) => 
                     `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
@@ -732,13 +1138,21 @@ function App() {
     <Router>
       <ScrollToTop />
       <NavBar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/credit-cards" element={<CreditCardsPage onApply={handleApplyNow} />} />
-        <Route path="/loans" element={<LoansPage />} />
-        <Route path="/cibil-check" element={<CibilPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-      </Routes>
+      <div className="content-wrapper">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/credit-cards" element={<CreditCardsPage onApply={handleApplyNow} />} />
+          <Route path="/loans" element={<LoansPage />} />
+          <Route path="/cibil-check" element={<CibilPage />} />
+          <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
+          <Route path="/company" element={<CompanyPage />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/contact" element={<ContactUsPage />} />
+
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+        </Routes>
+      </div>
       {showCustomerForm && selectedCard && (
         <CustomerForm 
           cardName={selectedCard.name}
@@ -747,6 +1161,7 @@ function App() {
           onClose={handleFormClose}
         />
       )}
+      <WhatsAppChat />
     </Router>
   );
 }

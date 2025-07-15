@@ -1,4 +1,4 @@
--- Create the credit_card_applications table with the simplified schema
+-- Create the credit_card_applications table with PAN number field
 CREATE TABLE credit_card_applications (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
