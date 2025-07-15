@@ -1,8 +1,8 @@
 import React from 'react';
 
 const WhatsAppChat = () => {
-  const phoneNumber = '919717414195'; // Your WhatsApp number without +91
-  const message = 'Hi! I need help with financial services.'; // Default message
+  const phoneNumber = '919717414195'; // Primary WhatsApp number without +91
+  const message = 'Hi! I need help with financial services from Finance Angels.'; // Default message
 
   const handleWhatsAppClick = () => {
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;

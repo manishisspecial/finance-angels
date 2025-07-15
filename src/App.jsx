@@ -294,7 +294,7 @@ function HomePage() {
               <ul className="space-y-3 text-gray-400">
                 <li className="flex items-center space-x-3">
                   <Phone className="w-4 h-4 text-purple-400" />
-                  <span>+91 98765 43210</span>
+                  <span>+91 9717414195</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <Mail className="w-4 h-4 text-purple-400" />
@@ -302,7 +302,7 @@ function HomePage() {
                 </li>
                 <li className="flex items-center space-x-3">
                   <MapPin className="w-4 h-4 text-purple-400" />
-                  <span>Mumbai, India</span>
+                  <span>Delhi, India</span>
                 </li>
               </ul>
             </div>
@@ -317,7 +317,108 @@ function HomePage() {
   );
 }
 
-function LoansPage() { return <div className="p-8 text-center text-2xl">Loans Page (Coming Soon)</div>; }
+function LoansPage() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="gradient-bg text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Personal Loans
+          </h1>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            Fast, secure, and hassle-free personal loans tailored to your needs
+          </p>
+        </div>
+      </div>
+
+      {/* Coming Soon Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center">
+          {/* Coming Soon Icon */}
+          <div className="mb-8">
+            <div className="w-24 h-24 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            Coming Soon
+          </h2>
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            We're working hard to bring you the best personal loan options with competitive rates, 
+            quick approvals, and flexible repayment terms.
+          </p>
+
+          {/* Features Preview */}
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Quick Approval</h3>
+              <p className="text-gray-600">Get approved within 24 hours with minimal documentation</p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Competitive Rates</h3>
+              <p className="text-gray-600">Lowest interest rates starting from 10.49% per annum</p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Flexible Repayment</h3>
+              <p className="text-gray-600">Choose repayment terms from 12 to 60 months</p>
+            </div>
+          </div>
+
+          {/* CTA Section */}
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">Be the First to Know</h3>
+            <p className="text-purple-100 mb-6">
+              Get notified when our personal loan services go live and enjoy exclusive early bird benefits.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                Get Notified
+              </button>
+              <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors">
+                Contact Us
+              </button>
+            </div>
+          </div>
+
+          {/* Back to Home */}
+          <div className="mt-12">
+            <NavLink 
+              to="/" 
+              className="inline-flex items-center space-x-2 text-purple-600 hover:text-purple-700 font-medium"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              <span>Back to Home</span>
+            </NavLink>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const creditCards = [
   {
