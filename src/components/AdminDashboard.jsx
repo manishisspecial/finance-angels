@@ -707,8 +707,12 @@ const AdminDashboard = ({ onLogout }) => {
     try {
       setLoading(true);
       
-      // Use all products from the application instead of just database
-      setProducts(allProducts);
+      // Fetch products from database
+      const { data: productsData } = await supabase
+        .from('products')
+        .select('*')
+        .order('type', { ascending: true })
+        .order('name', { ascending: true });
       
       // Fetch advisors
       const { data: advisorsData } = await supabase
@@ -726,6 +730,7 @@ const AdminDashboard = ({ onLogout }) => {
         `)
         .order('created_at', { ascending: false });
 
+      setProducts(productsData || []);
       setAdvisors(advisorsData || []);
       setApplications(applicationsData || []);
     } catch (error) {
@@ -1017,6 +1022,8 @@ const OverviewTab = ({ stats }) => (
 
 const ProductsTab = ({ products, onRefresh }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   
   const categories = {
     all: 'All Products',
@@ -1037,6 +1044,86 @@ const ProductsTab = ({ products, onRefresh }) => {
     acc[category].push(product);
     return acc;
   }, {});
+
+  const handleToggleStatus = async (product) => {
+    try {
+      const newStatus = product.status === 'active' ? 'inactive' : 'active';
+      
+      const { error } = await supabase
+        .from('products')
+        .update({ status: newStatus })
+        .eq('id', product.id);
+
+      if (error) {
+        console.error('Error updating product status:', error);
+        alert('Failed to update product status');
+        return;
+      }
+
+      // Refresh the data
+      onRefresh();
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to update product status');
+    }
+  };
+
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    setShowEditModal(true);
+  };
+
+  const handleSaveProduct = async (updatedProduct) => {
+    try {
+      const { error } = await supabase
+        .from('products')
+        .update({
+          name: updatedProduct.name,
+          commission_rate: updatedProduct.commission_rate,
+          payout_amount: updatedProduct.payout_amount,
+          status: updatedProduct.status,
+          is_featured: updatedProduct.is_featured
+        })
+        .eq('id', updatedProduct.id);
+
+      if (error) {
+        console.error('Error updating product:', error);
+        alert('Failed to update product');
+        return;
+      }
+
+      setShowEditModal(false);
+      setEditingProduct(null);
+      onRefresh();
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to update product');
+    }
+  };
+
+  const handleDeleteProduct = async (product) => {
+    if (!confirm(`Are you sure you want to delete "${product.name}"?`)) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', product.id);
+
+      if (error) {
+        console.error('Error deleting product:', error);
+        alert('Failed to delete product');
+        return;
+      }
+
+      onRefresh();
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to delete product');
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -1087,7 +1174,7 @@ const ProductsTab = ({ products, onRefresh }) => {
                     PROVIDER
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    COMMISSION
+                    {selectedCategory === 'credit_card' ? 'PAYOUT' : 'COMMISSION'}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     STATUS
@@ -1110,7 +1197,10 @@ const ProductsTab = ({ products, onRefresh }) => {
                       {product.provider}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {product.commission_rate}%
+                      {product.type === 'credit_card' 
+                        ? `₹${product.payout_amount || 1500}` 
+                        : `${product.commission_rate || 2}%`
+                      }
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -1125,13 +1215,22 @@ const ProductsTab = ({ products, onRefresh }) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex items-center space-x-2">
-                        <button className="text-red-600 hover:text-red-900">
+                        <button 
+                          onClick={() => handleToggleStatus(product)}
+                          className="text-red-600 hover:text-red-900"
+                        >
                           {product.status === 'active' ? 'Deactivate' : 'Activate'}
                         </button>
-                        <button className="text-blue-600 hover:text-blue-900">
+                        <button 
+                          onClick={() => handleEditProduct(product)}
+                          className="text-blue-600 hover:text-blue-900"
+                        >
                           <Edit className="w-4 h-4" />
                         </button>
-                        <button className="text-red-600 hover:text-red-900">
+                        <button 
+                          onClick={() => handleDeleteProduct(product)}
+                          className="text-red-600 hover:text-red-900"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -1143,6 +1242,23 @@ const ProductsTab = ({ products, onRefresh }) => {
           </div>
         </div>
       ))}
+
+      {/* Edit Product Modal */}
+      {showEditModal && editingProduct && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-lg font-semibold mb-4">Edit Product</h3>
+            <EditProductModal 
+              product={editingProduct}
+              onSave={handleSaveProduct}
+              onCancel={() => {
+                setShowEditModal(false);
+                setEditingProduct(null);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -1399,5 +1515,131 @@ const SettingsTab = () => (
     </div>
   </div>
 );
+
+const EditProductModal = ({ product, onSave, onCancel }) => {
+  const [formData, setFormData] = useState({
+    name: product.name,
+    commission_rate: product.commission_rate || 2,
+    payout_amount: product.payout_amount || 1500,
+    status: product.status || 'active',
+    is_featured: product.is_featured || false
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave({
+      ...product,
+      ...formData
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Product Name
+        </label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          required
+        />
+      </div>
+
+      {product.type === 'credit_card' ? (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Payout Amount (₹)
+          </label>
+          <input
+            type="number"
+            name="payout_amount"
+            value={formData.payout_amount}
+            onChange={handleInputChange}
+            min="0"
+            max="5000"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            required
+          />
+          <p className="text-xs text-gray-500 mt-1">Maximum payout up to ₹5000</p>
+        </div>
+      ) : (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Commission Rate (%)
+          </label>
+          <input
+            type="number"
+            name="commission_rate"
+            value={formData.commission_rate}
+            onChange={handleInputChange}
+            min="0"
+            max="10"
+            step="0.1"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            required
+          />
+          <p className="text-xs text-gray-500 mt-1">Commission rate from 0% to 10%</p>
+        </div>
+      )}
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Status
+        </label>
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleInputChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+        >
+          <option value="active">Active</option>
+          <option value="hold">Hold</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          name="is_featured"
+          checked={formData.is_featured}
+          onChange={handleInputChange}
+          className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+        />
+        <label className="ml-2 block text-sm text-gray-900">
+          Featured Product
+        </label>
+      </div>
+
+      <div className="flex space-x-3 pt-4">
+        <button
+          type="submit"
+          className="flex-1 bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition-colors"
+        >
+          Save Changes
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition-colors"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+};
 
 export default AdminDashboard; 
