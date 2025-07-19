@@ -1,12 +1,17 @@
-import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { ArrowLeft, Search, Filter, CheckCircle, Star, ArrowRight, Shield, Zap, Users, TrendingUp, CreditCard, Calculator, FileText, Phone, Mail, MapPin, Menu, X } from 'lucide-react';
+import { ArrowLeft, Search, Filter, CheckCircle, Star, ArrowRight, Shield, Zap, Users, TrendingUp, CreditCard, Calculator, FileText, Phone, Mail, MapPin, Menu, X, UserPlus, Settings, User } from 'lucide-react';
 import CustomerForm from './components/CustomerForm';
 import CibilPage from './components/CibilPage';
 import EmiCalculatorPage from './components/EmiCalculatorPage';
 import CompanyPage from './components/CompanyPage';
 import AboutUsPage from './components/AboutUsPage';
 import ContactUsPage from './components/ContactUsPage';
+import AdminDashboard from './components/AdminDashboard';
+import AdminLogin from './components/AdminLogin';
+import AdvisorRegistration from './components/AdvisorRegistration';
+import AdvisorDashboard from './components/AdvisorDashboard';
+import AdvisorLogin from './components/AdvisorLogin';
 
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import TermsOfServicePage from './components/TermsOfServicePage';
@@ -42,10 +47,34 @@ function HomePage() {
                 Explore Cards
                 <ArrowRight className="ml-2 w-5 h-5" />
               </NavLink>
-              <button className="btn-secondary text-lg inline-flex items-center justify-center">
-                <Calculator className="w-5 h-5 mr-2" />
-                Calculate EMI
-              </button>
+              <NavLink 
+                to="/loans"
+                className="btn-secondary text-lg inline-flex items-center justify-center"
+              >
+                <TrendingUp className="w-5 h-5 mr-2" />
+                Get Loans
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </NavLink>
+            </div>
+
+            {/* Advisor CTA */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              <NavLink 
+                to="/become-advisor"
+                className="inline-flex items-center justify-center bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+              >
+                <UserPlus className="w-5 h-5 mr-2" />
+                Become an Advisor
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </NavLink>
+              <NavLink 
+                to="/advisor-login"
+                className="inline-flex items-center justify-center bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
+              >
+                <User className="w-5 h-5 mr-2" />
+                Advisor Login
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </NavLink>
             </div>
 
             {/* Floating Elements */}
@@ -147,12 +176,12 @@ function HomePage() {
               <div className="text-purple-200 font-medium">Premium Cards</div>
             </div>
             <div className="group">
-              <div className="stat-number mb-2 group-hover:scale-110 transition-transform duration-300">95%</div>
-              <div className="text-purple-200 font-medium">Approval Rate</div>
+              <div className="stat-number mb-2 group-hover:scale-110 transition-transform duration-300">18+</div>
+              <div className="text-purple-200 font-medium">Loan Options</div>
             </div>
             <div className="group">
-              <div className="stat-number mb-2 group-hover:scale-110 transition-transform duration-300">24/7</div>
-              <div className="text-purple-200 font-medium">Support</div>
+              <div className="stat-number mb-2 group-hover:scale-110 transition-transform duration-300">95%</div>
+              <div className="text-purple-200 font-medium">Approval Rate</div>
             </div>
           </div>
         </div>
@@ -317,7 +346,353 @@ function HomePage() {
   );
 }
 
+const personalLoans = [
+  {
+    name: 'Poonawalla Fincorp Instant Personal Loan',
+    provider: 'Poonawalla Fincorp',
+    category: 'Instant',
+    rating: 4.6,
+    loanAmount: '₹5 Lakh',
+    interestRate: 'Starting from 10.49%',
+    features: 'Collateral-free, Minimal documentation, No hidden charges',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/NWQ3MWNhZ'
+  },
+  {
+    name: 'Ring Power Loan',
+    provider: 'Ring Power',
+    category: 'Quick',
+    rating: 4.5,
+    loanAmount: '₹5 lakhs',
+    interestRate: 'Competitive rates',
+    features: 'Hassle-free application process, Instant disbursal',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/OGRhOWVkY'
+  },
+  {
+    name: 'MoneyView Personal Loan',
+    provider: 'MoneyView',
+    category: 'Paperless',
+    rating: 4.7,
+    loanAmount: '₹10 Lakhs',
+    interestRate: 'Affordable rates',
+    features: 'Collateral Free Loans, 24 Hour Disbursal, Affordable EMI plans',
+    benefits: 'Simple application process, Hassle-Free Documentation',
+    applyLink: 'https://wee.bnking.in/c/NzY4YmEyY'
+  },
+  {
+    name: 'KreditBee Instant Personal Loan',
+    provider: 'KreditBee',
+    category: 'Instant',
+    rating: 4.4,
+    loanAmount: '₹5 lakhs',
+    interestRate: 'Flexible rates',
+    features: 'Easy online application process, Flexible repayment options, Direct bank transfer',
+    benefits: '100% Fast and Secure, Paperless Documentation',
+    applyLink: 'https://wee.bnking.in/c/NjJlODJmM'
+  },
+  {
+    name: 'Unity SFB Personal Loan',
+    provider: 'Unity SFB',
+    category: 'Secure',
+    rating: 4.3,
+    loanAmount: '₹5 lakhs',
+    interestRate: 'Competitive rates',
+    features: 'Hassle-free online process, Secure & RBI regulated',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/ZGMyOTkyY'
+  },
+  {
+    name: 'Indus Easy Credit Personal Loan',
+    provider: 'Indus Easy Credit',
+    category: 'Quick',
+    rating: 4.2,
+    loanAmount: '₹5 lakh',
+    interestRate: 'Affordable rates',
+    features: 'Hassle-free application process, Quick approval',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/MWIzZTI2Y'
+  },
+  {
+    name: 'Olyv Personal Loan',
+    provider: 'Olyv',
+    category: 'Instant',
+    rating: 4.1,
+    loanAmount: '₹1 lakh',
+    interestRate: 'Competitive rates',
+    features: 'Easy application process, Collateral free loan, Quick loan disbursal',
+    benefits: '100% Fast and Secure, Minimum documentation',
+    applyLink: 'https://wee.bnking.in/c/MTE0YmZmN'
+  },
+  {
+    name: 'PayMe Personal Loan',
+    provider: 'PayMe',
+    category: 'Quick',
+    rating: 4.0,
+    loanAmount: '₹3 lakh',
+    interestRate: 'Affordable rates',
+    features: 'Hassle-free application process, Quick approval',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/ZDE4ZDhlZ'
+  },
+  {
+    name: 'Lendingplate Loan',
+    provider: 'Lendingplate',
+    category: 'Fast',
+    rating: 4.3,
+    loanAmount: '₹2 lakhs',
+    interestRate: 'Competitive rates',
+    features: 'Hassle-free online process, Fast disbursement',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/NWNiYTRhM'
+  },
+  {
+    name: 'Zype Personal Loan',
+    provider: 'Zype',
+    category: 'Flexible',
+    rating: 4.4,
+    loanAmount: '₹5 lakhs',
+    interestRate: 'Low interest rates',
+    features: 'Tenure: 3 months to 12 months, Flexible EMIs',
+    benefits: '100% Simple & Secure Process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/ZDQ0Y2M3Z'
+  },
+  {
+    name: 'Aditya Birla Capital Digital Personal Loan',
+    provider: 'Aditya Birla Capital',
+    category: 'Digital',
+    rating: 4.5,
+    loanAmount: '₹5 lakhs',
+    interestRate: 'Competitive rates',
+    features: 'Hassle-free application process, Instant approval',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/NjBjZTRiN'
+  },
+  {
+    name: 'True Balance Personal Loan',
+    provider: 'True Balance',
+    category: 'Secure',
+    rating: 4.2,
+    loanAmount: '₹2 lakh',
+    interestRate: 'Affordable rates',
+    features: '100% online & secure process, Regulated by RBI',
+    benefits: 'Hassle-free application process, 100% safe & secure',
+    applyLink: 'https://wee.bnking.in/c/YmI5Njc3N'
+  },
+  {
+    name: 'HSBC Personal Loan',
+    provider: 'HSBC',
+    category: 'Premium',
+    rating: 4.6,
+    loanAmount: '₹10 lakh',
+    interestRate: 'Competitive rates',
+    features: 'Hassle-free application process, Quick approval',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/YzVlNGI4M'
+  },
+  {
+    name: 'i2iFunding Personal Loan',
+    provider: 'i2iFunding',
+    category: 'P2P',
+    rating: 4.1,
+    loanAmount: '₹50,000',
+    interestRate: 'Low interest rates',
+    features: 'Quick disbursal, Low interest rates',
+    benefits: '100% Simple & Secure Process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/MzFhNjdiM'
+  },
+  {
+    name: 'Prefr Personal Loan',
+    provider: 'Prefr',
+    category: 'Instant',
+    rating: 4.3,
+    loanAmount: '₹3,00,000',
+    interestRate: 'Affordable Interest Rates',
+    features: 'Instant process, Quick Approvals & Disbursals',
+    benefits: '100% Fast and Secure, Minimum Documentation',
+    applyLink: 'https://wee.bnking.in/c/M2UwY2ZiY'
+  },
+  {
+    name: 'Ram Fincorp Digital Personal Loan',
+    provider: 'Ram Fincorp',
+    category: 'Digital',
+    rating: 4.0,
+    loanAmount: '₹1 lakh',
+    interestRate: 'Competitive rates',
+    features: 'Hassle-free application process, Instant approval',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/NzUzMzU1Y'
+  }
+];
+
 function LoansPage() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="gradient-bg text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Choose Your Loan Type
+          </h1>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            Select the perfect loan option for your needs. We offer both personal and business financing solutions.
+          </p>
+        </div>
+      </div>
+
+      {/* Loan Types Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Personal Loans */}
+          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+            <div className="p-8">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Personal Loans</h2>
+              <p className="text-gray-600 mb-6">
+                Get instant personal loans up to ₹10 lakhs with minimal documentation. 
+                Perfect for emergency expenses, home renovation, or any personal needs.
+              </p>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span className="text-gray-700">Up to ₹10 lakhs loan amount</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span className="text-gray-700">Quick approval within 24 hours</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span className="text-gray-700">16+ trusted lenders</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span className="text-gray-700">100% online process</span>
+                </div>
+              </div>
+              <NavLink 
+                to="/personal-loans"
+                className="inline-flex items-center justify-center w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+              >
+                Explore Personal Loans
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </NavLink>
+            </div>
+          </div>
+
+          {/* Business Loans */}
+          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+            <div className="p-8">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Business Loans</h2>
+              <p className="text-gray-600 mb-6">
+                Fuel your business growth with flexible financing solutions. 
+                Get quick approval and competitive rates for your business needs.
+              </p>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span className="text-gray-700">Up to ₹35 lakhs loan amount</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span className="text-gray-700">72-hour disbursal</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span className="text-gray-700">Minimal documentation</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span className="text-gray-700">100% secure process</span>
+                </div>
+              </div>
+              <NavLink 
+                to="/business-loans"
+                className="inline-flex items-center justify-center w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+              >
+                Explore Business Loans
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </NavLink>
+            </div>
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div className="mt-16">
+          <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">Why Choose Our Loan Services?</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Zap className="w-6 h-6 text-purple-600" />
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Quick Approval</h4>
+              <p className="text-gray-600">Get approved within 24 hours with minimal documentation</p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-6 h-6 text-blue-600" />
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Secure Process</h4>
+              <p className="text-gray-600">Bank-level security with encrypted data transmission</p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Users className="w-6 h-6 text-green-600" />
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Expert Support</h4>
+              <p className="text-gray-600">24/7 customer support to guide you through the process</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Back to Home */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <NavLink to="/" className="inline-flex items-center space-x-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Home</span>
+        </NavLink>
+      </div>
+    </div>
+  );
+}
+
+function PersonalLoansPage({ onApply }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [sortBy, setSortBy] = useState('rating');
+
+  const categories = ['All', 'Instant', 'Quick', 'Paperless', 'Secure', 'Digital', 'Premium', 'P2P', 'Flexible', 'Fast'];
+
+  const filteredLoans = personalLoans.filter(loan => {
+    const matchesSearch = loan.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         loan.provider.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'All' || loan.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const sortedLoans = [...filteredLoans].sort((a, b) => {
+    switch (sortBy) {
+      case 'rating':
+        return b.rating - a.rating;
+      case 'amount':
+        return parseInt(b.loanAmount.replace(/[^\d]/g, '')) - parseInt(a.loanAmount.replace(/[^\d]/g, ''));
+      case 'name':
+        return a.name.localeCompare(b.name);
+      default:
+        return 0;
+    }
+  });
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -327,94 +702,350 @@ function LoansPage() {
             Personal Loans
           </h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-            Fast, secure, and hassle-free personal loans tailored to your needs
+            Fast, secure, and hassle-free personal loans tailored to your needs. 
+            Get instant approval with minimal documentation.
           </p>
         </div>
       </div>
 
-      {/* Coming Soon Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center">
-          {/* Coming Soon Icon */}
-          <div className="mb-8">
-            <div className="w-24 h-24 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-          </div>
-
-          {/* Main Content */}
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            Coming Soon
-          </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            We're working hard to bring you the best personal loan options with competitive rates, 
-            quick approvals, and flexible repayment terms.
-          </p>
-
-          {/* Features Preview */}
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Quick Approval</h3>
-              <p className="text-gray-600">Get approved within 24 hours with minimal documentation</p>
+      {/* Search and Filter Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search loans..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              />
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Competitive Rates</h3>
-              <p className="text-gray-600">Lowest interest rates starting from 10.49% per annum</p>
+            {/* Category Filter */}
+            <div>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              >
+                {categories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Flexible Repayment</h3>
-              <p className="text-gray-600">Choose repayment terms from 12 to 60 months</p>
+            {/* Sort */}
+            <div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              >
+                <option value="rating">Sort by Rating</option>
+                <option value="amount">Sort by Amount</option>
+                <option value="name">Sort by Name</option>
+              </select>
             </div>
-          </div>
-
-          {/* CTA Section */}
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">Be the First to Know</h3>
-            <p className="text-purple-100 mb-6">
-              Get notified when our personal loan services go live and enjoy exclusive early bird benefits.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                Get Notified
-              </button>
-              <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors">
-                Contact Us
-              </button>
-            </div>
-          </div>
-
-          {/* Back to Home */}
-          <div className="mt-12">
-            <NavLink 
-              to="/" 
-              className="inline-flex items-center space-x-2 text-purple-600 hover:text-purple-700 font-medium"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              <span>Back to Home</span>
-            </NavLink>
           </div>
         </div>
+
+        {/* Results Count */}
+        <div className="mb-6">
+          <p className="text-gray-600">
+            Showing {sortedLoans.length} of {personalLoans.length} personal loans
+          </p>
+        </div>
+
+        {/* Loans Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sortedLoans.map((loan, index) => (
+            <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+              {/* Header */}
+              <div className="p-6 border-b border-gray-100">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{loan.name}</h3>
+                    <p className="text-sm text-gray-600">{loan.provider}</p>
+                  </div>
+                  <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
+                    {loan.category}
+                  </span>
+                </div>
+                
+                {/* Rating */}
+                <div className="flex items-center mb-4">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={`w-4 h-4 ${i < Math.floor(loan.rating) ? 'fill-current' : ''}`} />
+                    ))}
+                  </div>
+                  <span className="ml-2 text-sm text-gray-600">{loan.rating}</span>
+                </div>
+              </div>
+
+              {/* Details */}
+              <div className="p-6">
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Loan Amount:</span>
+                    <span className="font-semibold text-gray-900">{loan.loanAmount}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Interest Rate:</span>
+                    <span className="font-semibold text-gray-900">{loan.interestRate}</span>
+                  </div>
+                </div>
+
+                {/* Features */}
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">Key Features:</h4>
+                  <p className="text-sm text-gray-600">{loan.features}</p>
+                </div>
+
+                {/* Benefits */}
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">Why Apply Here:</h4>
+                  <p className="text-sm text-gray-600">{loan.benefits}</p>
+                </div>
+
+                {/* Apply Button */}
+                <button
+                  onClick={() => onApply(loan, 'personal_loan')}
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+                >
+                  Apply Now
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* No Results */}
+        {sortedLoans.length === 0 && (
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No loans found</h3>
+            <p className="text-gray-600">Try adjusting your search criteria</p>
+          </div>
+        )}
+      </div>
+
+      {/* Back to Home */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <NavLink to="/" className="inline-flex items-center space-x-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Home</span>
+        </NavLink>
+      </div>
+    </div>
+  );
+}
+
+const businessLoans = [
+  {
+    name: 'Flexiloans Business Loan',
+    provider: 'Flexiloans',
+    category: 'Business',
+    rating: 4.5,
+    loanAmount: '₹20 lakhs',
+    interestRate: 'Competitive rates',
+    features: 'Hassle-free application process, Instant approval',
+    benefits: '100% online & secure process, Hassle-free application process',
+    applyLink: 'https://wee.bnking.in/c/YmI0NDhhZ'
+  },
+  {
+    name: 'Lendingkart Business Loan',
+    provider: 'Lendingkart',
+    category: 'Business',
+    rating: 4.6,
+    loanAmount: '₹35 lakhs',
+    interestRate: 'Competitive rates',
+    features: 'Minimal documentation, 72-hour disbursal',
+    benefits: '100% Simple & Secure Process, Easy online application process',
+    applyLink: 'https://wee.bnking.in/c/MDEzZDliZ'
+  }
+];
+
+function BusinessLoansPage({ onApply }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [sortBy, setSortBy] = useState('rating');
+
+  const categories = ['All', 'Business'];
+
+  const filteredLoans = businessLoans.filter(loan => {
+    const matchesSearch = loan.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         loan.provider.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'All' || loan.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const sortedLoans = [...filteredLoans].sort((a, b) => {
+    switch (sortBy) {
+      case 'rating':
+        return b.rating - a.rating;
+      case 'amount':
+        return parseInt(b.loanAmount.replace(/[^\d]/g, '')) - parseInt(a.loanAmount.replace(/[^\d]/g, ''));
+      case 'name':
+        return a.name.localeCompare(b.name);
+      default:
+        return 0;
+    }
+  });
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="gradient-bg text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Business Loans
+          </h1>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            Fuel your business growth with flexible financing solutions. 
+            Get quick approval and competitive rates for your business needs.
+          </p>
+        </div>
+      </div>
+
+      {/* Search and Filter Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search business loans..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              />
+            </div>
+
+            {/* Category Filter */}
+            <div>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              >
+                {categories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Sort */}
+            <div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              >
+                <option value="rating">Sort by Rating</option>
+                <option value="amount">Sort by Amount</option>
+                <option value="name">Sort by Name</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Results Count */}
+        <div className="mb-6">
+          <p className="text-gray-600">
+            Showing {sortedLoans.length} of {businessLoans.length} business loans
+          </p>
+        </div>
+
+        {/* Loans Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sortedLoans.map((loan, index) => (
+            <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+              {/* Header */}
+              <div className="p-6 border-b border-gray-100">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{loan.name}</h3>
+                    <p className="text-sm text-gray-600">{loan.provider}</p>
+                  </div>
+                  <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                    {loan.category}
+                  </span>
+                </div>
+                
+                {/* Rating */}
+                <div className="flex items-center mb-4">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={`w-4 h-4 ${i < Math.floor(loan.rating) ? 'fill-current' : ''}`} />
+                    ))}
+                  </div>
+                  <span className="ml-2 text-sm text-gray-600">{loan.rating}</span>
+                </div>
+              </div>
+
+              {/* Details */}
+              <div className="p-6">
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Loan Amount:</span>
+                    <span className="font-semibold text-gray-900">{loan.loanAmount}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Interest Rate:</span>
+                    <span className="font-semibold text-gray-900">{loan.interestRate}</span>
+                  </div>
+                </div>
+
+                {/* Features */}
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">Key Features:</h4>
+                  <p className="text-sm text-gray-600">{loan.features}</p>
+                </div>
+
+                {/* Benefits */}
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">Why Apply Here:</h4>
+                  <p className="text-sm text-gray-600">{loan.benefits}</p>
+                </div>
+
+                {/* Apply Button */}
+                <button
+                  onClick={() => onApply(loan, 'business_loan')}
+                  className="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+                >
+                  Apply Now
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* No Results */}
+        {sortedLoans.length === 0 && (
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No business loans found</h3>
+            <p className="text-gray-600">Try adjusting your search criteria</p>
+          </div>
+        )}
+      </div>
+
+      {/* Back to Home */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <NavLink to="/" className="inline-flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Home</span>
+        </NavLink>
       </div>
     </div>
   );
@@ -1080,8 +1711,47 @@ function CreditCardsPage({ onApply }) {
 }
 
 function App() {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdvisor, setIsAdvisor] = useState(false);
+  const [advisorId, setAdvisorId] = useState(null);
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [loanType, setLoanType] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Navigation wrapper component
+  const NavigationWrapper = ({ children }) => {
+    const navigate = useNavigate();
+    
+    const handleAdminLogin = () => {
+      setIsAdmin(true);
+      navigate('/admin/dashboard');
+    };
+
+    const handleAdvisorLogin = (id, advisor) => {
+      setIsAdvisor(true);
+      setAdvisorId(id);
+      navigate('/advisor-dashboard');
+    };
+
+    const handleAdminLogout = () => {
+      setIsAdmin(false);
+      navigate('/');
+    };
+
+    const handleAdvisorLogout = () => {
+      setIsAdvisor(false);
+      setAdvisorId(null);
+      navigate('/');
+    };
+
+    return children({ 
+      handleAdminLogin, 
+      handleAdvisorLogin, 
+      handleAdminLogout, 
+      handleAdvisorLogout 
+    });
+  };
 
   // Logo component
   const Logo = () => (
@@ -1119,6 +1789,12 @@ function App() {
               <NavLink to="/cibil-check" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>CIBIL Score</NavLink>
               <NavLink to="/emi-calculator" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>EMI Calculator</NavLink>
               <NavLink to="/contact" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Contact</NavLink>
+              {isAdmin && (
+                <NavLink to="/admin" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                  <Settings className="w-4 h-4 inline mr-1" />
+                  Admin
+                </NavLink>
+              )}
             </nav>
 
             {/* Mobile Menu Button */}
@@ -1226,43 +1902,185 @@ function App() {
   };
 
   // Handle Apply Now button click
-  const handleApplyNow = (card) => {
-    setSelectedCard(card);
+  const handleApplyNow = (item, type = null) => {
+    setSelectedCard(item);
+    setLoanType(type);
     setShowCustomerForm(true);
   };
   const handleFormClose = () => {
     setShowCustomerForm(false);
     setSelectedCard(null);
+    setLoanType(null);
+  };
+
+  const handleAdvisorSuccess = () => {
+    // Redirect to home after successful advisor registration
+    window.location.href = '/';
   };
 
   return (
     <Router>
       <ScrollToTop />
-      <NavBar />
-      <div className="content-wrapper">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/credit-cards" element={<CreditCardsPage onApply={handleApplyNow} />} />
-          <Route path="/loans" element={<LoansPage />} />
-          <Route path="/cibil-check" element={<CibilPage />} />
-          <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
-          <Route path="/company" element={<CompanyPage />} />
-          <Route path="/about-us" element={<AboutUsPage />} />
-          <Route path="/contact" element={<ContactUsPage />} />
-
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-        </Routes>
-      </div>
-      {showCustomerForm && selectedCard && (
-        <CustomerForm 
-          cardName={selectedCard.name}
-          cardBank={selectedCard.bank}
-          applyLink={selectedCard.applyLink}
-          onClose={handleFormClose}
-        />
-      )}
-      <WhatsAppChat />
+      
+      <NavigationWrapper>
+        {({ handleAdminLogin, handleAdvisorLogin, handleAdminLogout, handleAdvisorLogout }) => (
+          <>
+            {/* Public Layout - Only show navbar and WhatsApp for public pages */}
+            <Routes>
+              {/* Public Routes with Navbar and WhatsApp */}
+              <Route path="/" element={
+                <>
+                  <NavBar />
+                  <HomePage />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/credit-cards" element={
+                <>
+                  <NavBar />
+                  <CreditCardsPage onApply={handleApplyNow} />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/loans" element={
+                <>
+                  <NavBar />
+                  <LoansPage />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/personal-loans" element={
+                <>
+                  <NavBar />
+                  <PersonalLoansPage onApply={handleApplyNow} />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/business-loans" element={
+                <>
+                  <NavBar />
+                  <BusinessLoansPage onApply={handleApplyNow} />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/cibil-check" element={
+                <>
+                  <NavBar />
+                  <CibilPage />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/emi-calculator" element={
+                <>
+                  <NavBar />
+                  <EmiCalculatorPage />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/company" element={
+                <>
+                  <NavBar />
+                  <CompanyPage />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/about-us" element={
+                <>
+                  <NavBar />
+                  <AboutUsPage />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/contact" element={
+                <>
+                  <NavBar />
+                  <ContactUsPage />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/privacy-policy" element={
+                <>
+                  <NavBar />
+                  <PrivacyPolicyPage />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/terms-of-service" element={
+                <>
+                  <NavBar />
+                  <TermsOfServicePage />
+                  <WhatsAppChat />
+                </>
+              } />
+              
+              {/* Admin Routes - No Navbar, No WhatsApp */}
+              <Route path="/admin" element={
+                isAdmin ? (
+                  <AdminDashboard onLogout={handleAdminLogout} />
+                ) : (
+                  <AdminLogin onLogin={handleAdminLogin} onBack={() => window.history.back()} />
+                )
+              } />
+              <Route path="/admin/login" element={
+                isAdmin ? (
+                  <AdminDashboard onLogout={handleAdminLogout} />
+                ) : (
+                  <AdminLogin onLogin={handleAdminLogin} onBack={() => window.history.back()} />
+                )
+              } />
+              <Route path="/admin/dashboard" element={
+                isAdmin ? (
+                  <AdminDashboard onLogout={handleAdminLogout} />
+                ) : (
+                  <AdminLogin onLogin={handleAdminLogin} onBack={() => window.history.back()} />
+                )
+              } />
+              
+              {/* Advisor Routes - No Navbar, No WhatsApp */}
+              <Route path="/become-advisor" element={
+                <>
+                  <NavBar />
+                  <AdvisorRegistration onBack={() => window.history.back()} onSuccess={handleAdvisorSuccess} />
+                  <WhatsAppChat />
+                </>
+              } />
+              <Route path="/advisor-login" element={
+                isAdvisor ? (
+                  <AdvisorDashboard advisorId={advisorId} onLogout={handleAdvisorLogout} />
+                ) : (
+                  <>
+                    <NavBar />
+                    <AdvisorLogin onLogin={handleAdvisorLogin} onBack={() => window.history.back()} />
+                    <WhatsAppChat />
+                  </>
+                )
+              } />
+              <Route path="/advisor-dashboard" element={
+                isAdvisor ? (
+                  <AdvisorDashboard advisorId={advisorId} onLogout={handleAdvisorLogout} />
+                ) : (
+                  <>
+                    <NavBar />
+                    <AdvisorLogin onLogin={handleAdvisorLogin} onBack={() => window.history.back()} />
+                    <WhatsAppChat />
+                  </>
+                )
+              } />
+            </Routes>
+            
+            {showCustomerForm && selectedCard && (
+              <CustomerForm 
+                cardName={selectedCard.name}
+                cardBank={selectedCard.bank || selectedCard.provider}
+                applyLink={selectedCard.applyLink}
+                onClose={handleFormClose}
+                loanType={loanType}
+                selectedCard={selectedCard}
+              />
+            )}
+          </>
+        )}
+      </NavigationWrapper>
     </Router>
   );
 }

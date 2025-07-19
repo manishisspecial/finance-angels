@@ -227,7 +227,7 @@ const PrivacyPolicyPage = () => {
               <p className="text-gray-600">
                 This Privacy Policy is governed by and construed in accordance with 
                 the laws of India. Any disputes arising from this policy will be 
-                subject to the exclusive jurisdiction of the courts in Mumbai, India.
+                subject to the exclusive jurisdiction of the courts in Delhi, India.
               </p>
             </section>
           </div>

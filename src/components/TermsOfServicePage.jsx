@@ -202,7 +202,7 @@ const TermsOfServicePage = () => {
               </p>
               <p className="text-gray-600">
                 Any disputes arising from these Terms or your use of our services 
-                shall be subject to the exclusive jurisdiction of the courts in Mumbai, India.
+                shall be subject to the exclusive jurisdiction of the courts in Delhi, India.
               </p>
             </section>
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { X, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-const CustomerForm = ({ cardName, cardBank, applyLink, onClose }) => {
+const CustomerForm = ({ cardName, cardBank, applyLink, onClose, loanType, selectedCard }) => {
   // Pincode data for major cities in each state
   const statePincodes = {
     'Delhi': ['110001', '110002', '110003', '110004', '110005', '110006', '110007', '110008', '110009', '110010', '110011', '110012', '110013', '110014', '110015', '110016', '110017', '110018', '110019', '110020', '110021', '110022', '110023', '110024', '110025', '110026', '110027', '110028', '110029', '110030', '110031', '110032', '110033', '110034', '110035', '110036', '110037', '110038', '110039', '110040', '110041', '110042', '110043', '110044', '110045', '110046', '110047', '110048', '110049', '110050', '110051', '110052', '110053', '110054', '110055', '110056', '110057', '110058', '110059', '110060', '110061', '110062', '110063', '110064', '110065', '110066', '110067', '110068', '110069', '110070', '110071', '110072', '110073', '110074', '110075', '110076', '110077', '110078', '110079', '110080', '110081', '110082', '110083', '110084', '110085', '110086', '110087', '110088', '110089', '110090', '110091', '110092', '110093', '110094', '110095', '110096', '110097', '110098', '110099'],
@@ -105,8 +105,9 @@ const CustomerForm = ({ cardName, cardBank, applyLink, onClose }) => {
     setSubmitError('');
 
     try {
-      // Prepare data for Supabase - matching the new database schema
-      const applicationData = {
+      // Determine the table name based on loan type
+      let tableName = 'credit_card_applications';
+      let applicationData = {
         full_name: formData.name,
         email: formData.email,
         mobile_number: formData.phone,
@@ -116,16 +117,42 @@ const CustomerForm = ({ cardName, cardBank, applyLink, onClose }) => {
         occupation: formData.occupation,
         state: formData.state,
         pincode: formData.pincode,
-        card_name: cardName,
-        card_bank: cardBank,
         apply_link: applyLink,
         application_date: new Date().toISOString(),
         created_at: new Date().toISOString()
       };
 
+      // Add appropriate fields based on type
+      if (loanType === 'personal_loan') {
+        tableName = 'personal_loan_applications';
+        applicationData = {
+          ...applicationData,
+          loan_name: cardName,
+          loan_provider: cardBank,
+          loan_amount: selectedCard?.loanAmount || '',
+          interest_rate: selectedCard?.interestRate || ''
+        };
+      } else if (loanType === 'business_loan') {
+        tableName = 'business_loan_applications';
+        applicationData = {
+          ...applicationData,
+          loan_name: cardName,
+          loan_provider: cardBank,
+          loan_amount: selectedCard?.loanAmount || '',
+          interest_rate: selectedCard?.interestRate || ''
+        };
+      } else {
+        // Credit card
+        applicationData = {
+          ...applicationData,
+          card_name: cardName,
+          card_bank: cardBank
+        };
+      }
+
       // Insert data into Supabase
       const { data, error } = await supabase
-        .from('credit_card_applications')
+        .from(tableName)
         .insert([applicationData])
         .select();
 
@@ -353,35 +380,35 @@ const CustomerForm = ({ cardName, cardBank, applyLink, onClose }) => {
                 }`}
               >
                 <option value="">Select your state</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="West Bengal">West Bengal</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Kerala">Kerala</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                 <option value="Assam">Assam</option>
                 <option value="Bihar">Bihar</option>
                 <option value="Chhattisgarh">Chhattisgarh</option>
                 <option value="Goa">Goa</option>
-                <option value="Gujarat">Gujarat</option>
-                <option value="Haryana">Haryana</option>
                 <option value="Himachal Pradesh">Himachal Pradesh</option>
                 <option value="Jharkhand">Jharkhand</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Kerala">Kerala</option>
                 <option value="Madhya Pradesh">Madhya Pradesh</option>
-                <option value="Maharashtra">Maharashtra</option>
                 <option value="Manipur">Manipur</option>
                 <option value="Meghalaya">Meghalaya</option>
                 <option value="Mizoram">Mizoram</option>
                 <option value="Nagaland">Nagaland</option>
                 <option value="Odisha">Odisha</option>
-                <option value="Punjab">Punjab</option>
-                <option value="Rajasthan">Rajasthan</option>
                 <option value="Sikkim">Sikkim</option>
-                <option value="Tamil Nadu">Tamil Nadu</option>
-                <option value="Telangana">Telangana</option>
                 <option value="Tripura">Tripura</option>
-                <option value="Uttar Pradesh">Uttar Pradesh</option>
                 <option value="Uttarakhand">Uttarakhand</option>
-                <option value="West Bengal">West Bengal</option>
-                <option value="Delhi">Delhi</option>
                 <option value="Jammu and Kashmir">Jammu and Kashmir</option>
                 <option value="Ladakh">Ladakh</option>
                 <option value="Chandigarh">Chandigarh</option>
